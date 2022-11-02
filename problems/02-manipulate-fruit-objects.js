@@ -10,7 +10,13 @@ console.log(addKeyAndValueToAll(fruits, "inStock", true));
 
 function addKeyAndValueToAll(array, key, value) {
     // Your code here
+    array.forEach(fruit => {
+        fruit[key] = value;
+    })
+    return array;
 }
+
+// console.log(addKeyAndValueToAll(fruits, "inStock", true));
 
 /* 08. `addKeyAndValueToOne()` - Return object at the given index array, adding the given key and
 value to that fruit object
@@ -21,7 +27,12 @@ console.log(addKeyAndValueToOne(fruits, "color", "red", 1));
 
 function addKeyAndValueToOne(array, key, value, index) {
     // Your code here
+    let fruit = array[index];
+    fruit[key] = value;
+    return fruit;
 }
+
+// console.log(addKeyAndValueToOne(fruits, "color", "red", 1));
 
 /* 09. `updateKeyName()` - Change the old key name to the new key name in all
 objects, and return the resulting array.
@@ -33,7 +44,20 @@ console.log(updateKeyName(fruits, "nutritions", "nutrition"));
 
 function updateKeyName(array, oldKey, newKey) {
     // Your code here
+    array.map(fruit => {
+        for (let key in fruit) {
+            if (key === oldKey) {
+                fruit[newKey] = fruit[oldKey];
+                delete fruit[oldKey];
+            }else{
+                fruit[key] = fruit[key];
+            }
+        }
+    })
+    return array;
 }
+
+// console.log(updateKeyName(fruits, "nutritions", "nutrition"));
 
 /* 10. `updateIdValues()` - Change all of the "id" values to six-character
 strings, and return an array of all of the new id values.
@@ -50,7 +74,19 @@ console.log(updateIdValues(fruits));
 
 function updateIdValues(array) {
     // Your code here
-}
+    return array.map(fruit =>{
+        let num = fruit["id"];
+        let idStr = num.toString();
+        let length = idStr.length;
+        let addStr = "";
+        for (let i = 0; i < 6 - length; i++) {
+            addStr += "0";
+        }
+        fruit["id"] =addStr + idStr;
+        return fruit["id"];
+    })
+
+// console.log(updateIdValues(fruits));
 
 /* 11. `deleteKeysandValues()` - Delete the keyToDelete from the nutritions
 object from every fruit, and return the array.
@@ -61,7 +97,26 @@ console.log(deleteKeysAndValues(fruits, "sugar"));
 
 function deleteKeysAndValues(array, keyToDelete) {
     // Your code here
+    array.forEach(fruit => {
+        removeKey(fruit, keyToDelete);
+    })
+    return array;
 }
+
+function removeKey(fruit, keyToDelete) {
+    if (typeof fruit !== "object") {
+        return;
+    }
+    for (let key in fruit) {
+        if (key === keyToDelete) {
+            delete fruit[key];
+        }else {
+            removeKey(fruit[key],keyToDelete);
+        }
+    }
+}
+
+// console.log(deleteKeysAndValues(fruits, "sugar"));
 
 /**************DO NOT MODIFY ANYTHING UNDER THIS  LINE*****************/
 
